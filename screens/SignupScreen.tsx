@@ -1,9 +1,23 @@
+import { useState } from 'react';
 import AuthContent from '../components/Auth/AuthContent';
+import LoadingOverlay from '../components/ui/LoadingOverlay';
+import { createUser } from '../util/auth';
 
 function SignupScreen() {
-  return <AuthContent isLogin={false} onAuthenticate={function ({ email, password }: { email: string; password: string; }): void {
-    throw new Error('Function not implemented.');
-  }} />;
+
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  async function signupHandler({ email, password }: { email: string, password: string }) {
+    setIsAuthenticating(true);
+    await createUser(email, password);
+    setIsAuthenticating(false);
+  }
+
+  if (isAuthenticating) {
+    return <LoadingOverlay message={'Creating user...'} />
+  }
+
+  return <AuthContent isLogin={false} onAuthenticate={signupHandler} />;
 }
 
 export default SignupScreen;
