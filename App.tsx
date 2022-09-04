@@ -6,6 +6,8 @@ import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import { Colors } from './constants/styles';
+import React from 'react';
+import AuthContextProvider from './store/auth-context';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -46,9 +48,11 @@ function AuthenticatedStack() {
 
 function Navigation() {
   return (
-    <NavigationContainer>
-      <AuthStack />
-    </NavigationContainer>
+    <AuthContextProvider>
+      <NavigationContainer>
+        <AuthStack />
+      </NavigationContainer>
+    </AuthContextProvider>
   );
 }
 
