@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FlatButton from '../ui/FlatButton';
 import AuthForm from './AuthForm';
 import { Colors } from '../../constants/styles';
+import { RootStackParamList } from '../../App';
 
 interface AuthContentProps {
   isLogin: boolean,
@@ -26,7 +27,11 @@ export interface ICredentialsInvalid {
   confirmPassword: boolean
 }
 
+type NativeStackProps = NativeStackNavigationProp<RootStackParamList, 'Signup', 'Login'>;
+
 function AuthContent({ isLogin, onAuthenticate }: AuthContentProps) {
+
+  const navigation = useNavigation<NativeStackProps>();
 
   const [credentialsInvalid, setCredentialsInvalid] = useState({
     email: false,
@@ -36,7 +41,11 @@ function AuthContent({ isLogin, onAuthenticate }: AuthContentProps) {
   });
 
   function switchAuthModeHandler() {
-
+    if (isLogin) {
+      navigation.replace('Signup');
+    } else {
+      navigation.replace('Login');
+    }
   }
 
   function submitHandler(credentials: ICredentials) {
